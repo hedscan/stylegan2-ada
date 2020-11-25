@@ -1,9 +1,6 @@
-## Need Help?
-* If you’re new to StyleGAN2-ADA and looking to get started, please check out [this video series](https://www.youtube.com/playlist?list=PLWuCzxqIpJs8ViuBIUtAk-dsAtdrApYoy) from a course Lia Coleman and I taught in October 2020.
-* Interested in contributing? Please submit PRs or discuss changes in the [Artificial Images Slack](https://join.slack.com/t/ml-images/shared_invite/zt-9mxoe7va-eBZ9xzAWpx8VRL~Km_PzUQ) channel
-
 ## Edits made to this repo
 
+* **resume last pkl**: added opt to resume from last network snapshot .pkl in out_dir, useful for training on Google Colab.
 * **Fakes .jpg**: save yourself a ton of space with fakes during training saved as .jpg instead of .png
 * **Default GPU-based configs**: added configs to maximize GPU usage for 11GB. 24GB, and 48GB cards (use 11GB for 16GB cards)
 * **"Complex" configs**: Apply the cifar10 config to other datasets (good for complex/diverse datasets) Use `11gb-gpu-complex` or `24gb-gpu-complex`
