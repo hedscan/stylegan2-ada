@@ -32,3 +32,20 @@ def parse_kimg_from_network_name(network_pickle_name):
         kimg = 0.0
 
     return float(kimg)
+
+# TODO: Add func to locate log.txt in last run
+
+def parse_resume_augment_val_from_log_file(logfile, kimg):
+    # Open log file
+    with open(logfile) as f:
+        # read training tick summaries from log file into list
+        ticklines = [line.rstrip('\n') for line in f if 'tick' in line]
+    # Create a dict of param: value pairs per tick
+    ticks = [
+        {j.split(maxsplit=1)[0]: j.split(maxsplit=1)[1].strip()
+         for j in splitline}
+         # Regex splits on whitespace followed by char a-z
+        for splitline in [re.split(r'\s(?=[a-z])', line) for line in ticklines]]
+    # Get actual tick we are resuming from (not necessarily last)
+    resume_tick = next(tick for tick in ticks if float(tick['kimg']) == kimg)
+    return float(resume_tick['augment'])

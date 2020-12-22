@@ -292,9 +292,9 @@ def setup_training_options(
 
     if p is not None:
         assert isinstance(p, float)
-        if resume != 'latest' and aug != 'fixed':
-            raise UserError('--p can only be specified with --resume=latest or --aug=fixed')
-        if resume != 'latest' and not 0 <= p <= 1:
+        if aug != 'fixed':
+            raise UserError('--p can only be specified with --aug=fixed')
+        if not 0 <= p <= 1:
             raise UserError('--p must be between 0 and 1')
         desc += f'-p{p:g}'
         args.augment_args.initial_strength = p
@@ -443,7 +443,8 @@ def setup_training_options(
     elif resume in resume_specs:
         desc += f'-resume{resume}'
         args.resume_pkl = resume_specs[resume] # predefined url
-    # TODO: add opt for resume == 'latest'
+    elif resume == 'latest':
+        desc += '-resumelatest'
     else:
         desc += '-resumecustom'
         args.resume_pkl = resume # custom path or url

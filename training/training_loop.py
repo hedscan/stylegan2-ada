@@ -126,6 +126,8 @@ def training_loop(
         if resume_pkl == 'latest':
             out_dir = misc.get_parent_dir(run_dir)
             resume_pkl = misc.locate_latest_pkl(out_dir)
+            # DO SOMETHING WITH aug_args
+            print(repr(augment_args))
 
         resume_kimg = misc.parse_kimg_from_network_name(resume_pkl)
         if resume_kimg > 0:
