@@ -33,7 +33,14 @@ def parse_kimg_from_network_name(network_pickle_name):
 
     return float(kimg)
 
-# TODO: Add func to locate log.txt in last run
+def locate_latest_log_file(out_dir):
+    all_log_files = sorted(glob.glob(os.path.join(out_dir, '0*', 'log.txt')))
+
+    try:
+        latest_log_file = all_log_files[-1]
+    except IndexError:
+        latest_log_file = None
+    return latest_log_file
 
 def parse_resume_augment_val_from_log_file(logfile, kimg):
     # Open log file

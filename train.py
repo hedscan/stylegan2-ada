@@ -445,6 +445,7 @@ def setup_training_options(
         args.resume_pkl = resume_specs[resume] # predefined url
     elif resume == 'latest':
         desc += '-resumelatest'
+        args.resume_pkl = 'latest'
     else:
         desc += '-resumecustom'
         args.resume_pkl = resume # custom path or url
