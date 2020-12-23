@@ -2,3 +2,6 @@ __pycache__/
 
 # vscode settings
 .vscode
+
+# Notebooks
+notebooks
