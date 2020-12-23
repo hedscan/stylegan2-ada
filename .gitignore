@@ -3,5 +3,5 @@ __pycache__/
 # vscode settings
 .vscode
 
-# Notebooks
-notebooks
+# Notebooks folder
+notebooks/
