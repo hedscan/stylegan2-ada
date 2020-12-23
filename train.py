@@ -292,8 +292,8 @@ def setup_training_options(
 
     if p is not None:
         assert isinstance(p, float)
-        if aug != 'fixed':
-            raise UserError('--p can only be specified with --aug=fixed')
+        if aug != 'fixed' and resume != 'latest':
+            raise UserError('--p can only be specified with --aug=fixed or --resume=latest')
         if not 0 <= p <= 1:
             raise UserError('--p must be between 0 and 1')
         desc += f'-p{p:g}'
