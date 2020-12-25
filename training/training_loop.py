@@ -126,10 +126,15 @@ def training_loop(
         if resume_pkl == 'latest':
             out_dir = misc.get_parent_dir(run_dir)
             resume_pkl = misc.locate_latest_pkl(out_dir)
-
-        resume_kimg = misc.parse_kimg_from_network_name(resume_pkl)
-        if resume_kimg > 0:
-            print(f'Resuming from kimg = {resume_kimg}')
+            # NOTE: May have issue with augment_args having p if aug=noaug
+            resume_kimg = misc.parse_kimg_from_network_name(resume_pkl)
+            if resume_kimg > 0:
+                print(f'Resuming from kimg = {resume_kimg}')
+            if not hasattr(augment_args, 'initial_strength'):
+                log_file = misc.locate_latest_log_file(out_dir)
+                last_aug_val = misc.parse_resume_augment_val_from_log_file(log_file, kimg=resume_kimg)
+                augment_args.initial_strength = last_aug_val
+                print(f'Resuming from aug = {last_aug_val}')
 
         if resume_pkl is not None:
             print(f'Resuming from "{resume_pkl}"')
@@ -302,7 +307,7 @@ def training_loop(
                 f"kimg {autosummary('Progress/kimg', cur_nimg / 1000.0):<8.1f}",
                 f"time {dnnlib.util.format_time(autosummary('Timing/total_sec', total_time)):<12s}",
                 f"sec/tick {autosummary('Timing/sec_per_tick', tick_time):<7.1f}",
-                f"sec/kimg {autosummary('Timing/sec_per_kimg', tick_time / tick_kimg):<7.2f}",
+                f"sec/kimg {autosummary('Timing/sec_per_kimg', tick_time / tick_kimg if cur_tick > 0 else 0):<7.2f}",
                 f"maintenance {autosummary('Timing/maintenance_sec', maintenance_time):<6.1f}",
                 f"gpumem {autosummary('Resources/peak_gpu_mem_gb', peak_gpu_mem_op.eval() / 2**30):<5.1f}",
                 f"augment {autosummary('Progress/augment', aug.strength if aug is not None else 0):.3f}",

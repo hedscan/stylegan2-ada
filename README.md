@@ -1,6 +1,8 @@
+# StyleGAN2 with adaptive discriminator augmentation (ADA)
+
 ## Edits made to this repo
 
-* **resume last pkl**: added opt to resume from last network snapshot .pkl in out_dir, useful for training on Google Colab.
+* **resume last pkl**: added option to resume from last `network-snapshot-0*.pkl` in out_dir and resume training with the augment value used on that tick with `--resume=latest`. Useful for training on Google Colab.
 * **Fakes .jpg**: save yourself a ton of space with fakes during training saved as .jpg instead of .png
 * **Default GPU-based configs**: added configs to maximize GPU usage for 11GB. 24GB, and 48GB cards (use 11GB for 16GB cards)
 * **"Complex" configs**: Apply the cifar10 config to other datasets (good for complex/diverse datasets) Use `11gb-gpu-complex` or `24gb-gpu-complex`
@@ -15,7 +17,7 @@
 * **top-k training**: Improve generator training by only propagating gradients from images the discriminator was most unsure of: [Sinha & Zhao](https://arxiv.org/abs/2002.06224).
 * **@aydao's config**: Extra large config for huge datasets (>100k img)
 
-## StyleGAN2 with adaptive discriminator augmentation (ADA)<br>&mdash; Official TensorFlow implementation
+## Official TensorFlow implementation
 
 ![Teaser image](./docs/stylegan2-ada-teaser-1024x252.png)
 

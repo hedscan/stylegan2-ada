@@ -32,3 +32,35 @@ def parse_kimg_from_network_name(network_pickle_name):
         kimg = 0.0
 
     return float(kimg)
+
+def locate_latest_log_file(out_dir):
+    all_runs = sorted(glob.glob(os.path.join(out_dir, '0*')))
+    try:
+        last_run = all_runs[-2] # last dir is the current run
+    except IndexError:
+        raise ValueError("Could not find dir for last run")
+    try:
+        latest_log_file = glob.glob(os.path.join(last_run, 'log.txt'))[0]
+    except IndexError:
+        raise ValueError("log.txt from last run not found")
+    return latest_log_file
+
+def parse_resume_augment_val_from_log_file(logfile, kimg):
+    # Open log file
+    with open(logfile) as f:
+        # read training tick summaries from log file into list
+        ticklines = [line.rstrip('\n') for line in f if 'tick' in line]
+        if not ticklines:
+            raise ValueError(
+        f"{os.path.basename(logfile)} does not contain training ticks"
+        " did you specify the right out_dir?"
+        )
+    # Create a dict of param: value pairs per tick
+    ticks = [
+        {i.split(maxsplit=1)[0]: i.split(maxsplit=1)[1].strip()
+         for i in splitline}
+         # Regex splits on whitespace followed by char a-z
+        for splitline in [re.split(r'\s(?=[a-z])', line) for line in ticklines]]
+    # Get actual tick we are resuming from (not necessarily last)
+    resume_tick = next(tick for tick in ticks if float(tick['kimg']) == kimg)
+    return float(resume_tick['augment'])
