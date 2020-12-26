@@ -126,7 +126,6 @@ def training_loop(
         if resume_pkl == 'latest':
             out_dir = misc.get_parent_dir(run_dir)
             resume_pkl = misc.locate_latest_pkl(out_dir)
-            # NOTE: May have issue with augment_args having p if aug=noaug
             resume_kimg = misc.parse_kimg_from_network_name(resume_pkl)
             if resume_kimg > 0:
                 print(f'Resuming from kimg = {resume_kimg}')
@@ -135,6 +134,9 @@ def training_loop(
                 last_aug_val = misc.parse_resume_augment_val_from_log_file(log_file, kimg=resume_kimg)
                 augment_args.initial_strength = last_aug_val
                 print(f'Resuming from aug = {last_aug_val}')
+        
+        else:
+            resume_kimg = 0
 
         if resume_pkl is not None:
             print(f'Resuming from "{resume_pkl}"')
