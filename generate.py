@@ -15,6 +15,7 @@ import os
 import subprocess
 import pickle
 import re
+from datetime import datetime as dt
 
 import scipy
 import numpy as np
@@ -489,7 +490,7 @@ def lerp_video(network_pkl,                # Path to pretrained model pkl file
     )
     all_latents /= np.sqrt(np.mean(np.square(all_latents)))
     # Name of the final mp4 video
-    mp4 = f"{grid_w}x{grid_h}-lerp-{slowdown}xslowdown.mp4"
+    mp4 = f"{grid_w}x{grid_h}-lerp-{slowdown}xslowdown_{dt.now().strftime('%y%m%d%H%M%S')}.mp4"
 
     # Aux function to slowdown the video by 2x
     def double_slowdown(latents, duration_sec, num_frames):
